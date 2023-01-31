@@ -22,6 +22,11 @@ function init(){
     var igual = document.getElementById('igual');
 
 
+    //eventos de click
 
+    uno.onclick = function(a){
+        resultado.textContent = resultado.textContent + "1"; //se suma para no borrar lo demas
+    }
+    
 
 }
