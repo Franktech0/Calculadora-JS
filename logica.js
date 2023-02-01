@@ -96,7 +96,7 @@ function init(){
         //22+2-2
             for(var i=0; i<cadena.length; i++)
             {
-                //5-2-2
+                //4+2*6
                 if(cadena[i]!= null)
                 {
                     if((cadena[i]!='+')&&(cadena[i]!='-')&&(cadena[i]!='/')&&(cadena[i]!='*'))
@@ -107,9 +107,9 @@ function init(){
                     }
                     if(cadena[i]=='+'){
                         console.log("opcion suma");
-                        operando2 = operando1;
+                        operando2 = operando1; //4
                         console.log("operando 2:" + operando2);
-                        acumulador += parseFloat(operando2);
+                        acumulador += parseFloat(operando2);//
                         console.log("acumulador: "+acumulador);
                         operando2 = "";
                         operando1 = "";
@@ -122,11 +122,19 @@ function init(){
                         console.log("opcion resta");
                         operando2 = operando1; //operando 2 es igual a 5 //ahora tiene 2
                         console.log("operando 2: " + operando2);//5 positivo //2 positivo
-                        acumulador += parseFloat(operando2); //5 //2
-                        acumulador *= -1; //-5 //termina con 2 negativo
-                        console.log(acumulador); //imprime -5 //imprime//-2
-                        operando2 = ""; //vacea 
-                        operando1 = ""; //vacea
+                        if((Math.sign(parseFloat(operando2)) == 1) ||(Math.sign(parseFloat(operando2)) == 0))
+                        {
+                            acumulador = parseFloat(operando2);
+                        }
+                        else{
+                            acumulador -= parseFloat(operando2); //5 //2
+                            acumulador *= -1; //-5 //termina con 2 negativo
+                            console.log(acumulador); //imprime -5 //imprime//-2
+                            operando2 = ""; //vacea 
+                            operando1 = ""; //vacea
+                        }
+                        
+                        
 
                         opcion = "-"; // es la ultima operacion que se realiza antes de romper el ciclo
                     }
