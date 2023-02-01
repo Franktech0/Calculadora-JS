@@ -5,6 +5,7 @@ var operando4 = "" ;
 var operacion = 0;
 var cadena = "";
 var acumulador = 0;
+var opcion = "";
 
 
 
@@ -89,40 +90,54 @@ function init(){
 
         //cadena ejemplo 12+12 un arrglo de 5 posiciones contanto el 0
         console.log(cadena.length)
-        //22+2+2
+        //22+2-2
         for(var i=0; i<cadena.length; i++)
         {
+            //5-2
             if(cadena[i]!= null)
             {
-                if(cadena[i]!='+')
+                if((cadena[i]!='+')&&(cadena[i]!='-')&&(cadena[i]!='/')&&(cadena[i]!='*'))
                 {
                     console.log("operando1: " + operando1);
                     operando1 += cadena[i];
                     console.log(operando1);
                 }
-                else{
+                else if(cadena[i]=='+'){
                     operando2 = operando1;
                     console.log("operando 2:" + operando2);
                     acumulador += parseFloat(operando2);
                     console.log(acumulador);
                     operando2 = "";
                     operando1 = "";
+                    opcion = "+";
                 }
-                // // // if(cadena[i]=='-')
-                // // // {
-                // // //     operando2 += cadena[i];
-                // // // }
-                // // // if(cadena[i]=='*')
-                // // // {
-                // // //     operando3 += cadena[i];
-                // // // }
-                // // // if(cadena[i]=='/')
-                // // // {
-                // // //     operando4 += cadena[i];
-                // // // }
+                else if(cadena[i]=='-')
+                {
+                    //ya funciona con 2 numeros
+                    operando2 = operando1;
+                    console.log("operando 2: " + operando2);
+                    acumulador -= parseFloat(operando2);
+                    acumulador *= -1;
+                    console.log(acumulador);
+                    operando2 = "";
+                    operando1 = "";
+
+                    opcion = "-" // es la ultima operacion que se realiza antes de romper el ciclo
+                }
+                else if(cadena[i]=='/')
+                {
+                    
+                    opcion='/'; // es la ultima operacion que se realiza antes de romper el ciclo
+                }
+                else if(cadena[i]=='*')
+                {
+                    opcion='*'; // es la ultima operacion que se realiza antes de romper el ciclo
+                }
+
             }
             else
             {
+                alert("Error inesperado, la calculadora no puede realizar esta operacion")
                 break;
             }
             // if((cadena[i] >= 0)&&(cadena[i]<=9))
@@ -152,6 +167,7 @@ function init(){
         }
 
         operacion = parseFloat(acumulador) + parseFloat(operando1);
+        operacion = parseFloat(acumulador) - parseFloat(operando1);
         console.log(operacion);
         resultado.textContent = operacion;
         
