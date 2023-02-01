@@ -6,7 +6,7 @@ var operacion = 0;
 var cadena = "";
 var acumulador = 0;
 var opcion = "";
-
+var aux = 0;
 
 
 function init(){
@@ -84,7 +84,8 @@ function init(){
 
     //eventos click de los botones especiales
 
-    igual.onclick = function(a){
+    igual.onclick = function(a)
+    {
         cadena = resultado.textContent;
         console.log(cadena);
 
@@ -93,7 +94,7 @@ function init(){
         //22+2-2
         for(var i=0; i<cadena.length; i++)
         {
-            //5-2
+            //5-2-2
             if(cadena[i]!= null)
             {
                 if((cadena[i]!='+')&&(cadena[i]!='-')&&(cadena[i]!='/')&&(cadena[i]!='*'))
@@ -102,36 +103,78 @@ function init(){
                     operando1 += cadena[i];
                     console.log(operando1);
                 }
-                else if(cadena[i]=='+'){
+                if(cadena[i]=='+'){
                     operando2 = operando1;
                     console.log("operando 2:" + operando2);
                     acumulador += parseFloat(operando2);
-                    console.log(acumulador);
-                    operando2 = "";
-                    operando1 = "";
-                    opcion = "+";
-                }
-                else if(cadena[i]=='-')
-                {
-                    //ya funciona con 2 numeros
-                    operando2 = operando1;
-                    console.log("operando 2: " + operando2);
-                    acumulador -= parseFloat(operando2);
-                    acumulador *= -1;
-                    console.log(acumulador);
+                    console.log("acumulador: "+acumulador);
                     operando2 = "";
                     operando1 = "";
 
-                    opcion = "-" // es la ultima operacion que se realiza antes de romper el ciclo
+                    opcion = '+';
                 }
-                else if(cadena[i]=='/')
+                if(cadena[i]=='-')
                 {
+                    //ya funciona con 2 numeros
+                    operando2 = operando1; //operando 2 es igual a 5 //ahora tiene 2
+                    console.log("operando 2: " + operando2);//5 positivo //2 positivo
+                    acumulador += parseFloat(operando2); //5 //2
+                    acumulador *= -1; //-5 //termina con 2 negativo
+                    console.log(acumulador); //imprime -5 //imprime//-2
+                    operando2 = ""; //vacea 
+                    operando1 = ""; //vacea
+
+                    opcion = "-"; // es la ultima operacion que se realiza antes de romper el ciclo
+                }
+                if(cadena[i]=='*')//9*3
+                {
+                    operando2 = operando1; //9 //3
+                    console.log("operando 2:" + operando2);//9 //3
+                    console.log("acumulador inicial: " + acumulador);
                     
-                    opcion='/'; // es la ultima operacion que se realiza antes de romper el ciclo
-                }
-                else if(cadena[i]=='*')
-                {
+                    if (acumulador == 0)//en la primera vuelta si //aqui el acumulador ya vale 9
+                    {
+                        acumulador = parseFloat(operando2);//9
+                        console.log("entre en la primera condicion " + acumulador);
+                        opcion='/';
+                        operando2 = "";
+                        operando1 = "";
+                        
+                    }
+                    else{ //entra en la segunda vuelta
+                        console.log("entre en la segunda condicion");
+                        acumulador /= parseFloat(operando2);// 9/3 = 3
+                        console.log("acumulador: "+acumulador);
+                        operando2 = "";
+                        operando1 = "";
+                    };
+
                     opcion='*'; // es la ultima operacion que se realiza antes de romper el ciclo
+                }
+                if(cadena[i]=='/')
+                {
+                    operando2 = operando1; //9 //3
+                    console.log("operando 2:" + operando2);//9 //3
+                    console.log("acumulador inicial: " + acumulador);
+                    
+                    if (acumulador == 0)//en la primera vuelta si //aqui el acumulador ya vale 9
+                    {
+                        acumulador = parseFloat(operando2);//9
+                        console.log("entre en la primera condicion " + acumulador);
+                        opcion='/';
+                        operando2 = "";
+                        operando1 = "";
+                        
+                    }
+                    else{ //entra en la segunda vuelta
+                        console.log("entre en la segunda condicion");
+                        acumulador /= parseFloat(operando2);// 9/3 = 3
+                        console.log("acumulador: "+acumulador);
+                        operando2 = "";
+                        operando1 = "";
+                    };
+
+                    opcion='/'; // es la ultima operacion que se realiza antes de romper el ciclo
                 }
 
             }
@@ -166,15 +209,19 @@ function init(){
             // }
         }
 
-        operacion = parseFloat(acumulador) + parseFloat(operando1);
-        operacion = parseFloat(acumulador) - parseFloat(operando1);
-        console.log(operacion);
-        resultado.textContent = operacion;
-        
-        
+        // operacion = parseFloat(acumulador) + parseFloat(operando1);
+        // operacion = parseFloat(acumulador) - parseFloat(operando1);
+        // console.log(operacion);
+        // resultado.textContent = operacion;
+        console.log(opcion);
+        console.log(operando1);
+        resolver(opcion);
+    
+
     }
     borrar.onclick = function(){
         resultado.textContent = "";
+        console.clear();
         resetear()
     }
 
@@ -185,33 +232,38 @@ function resetear(){
     operando2 = "";
     operacion = "";
     acumulador = 0;
+    opcion = "";
 }
     
 
-
-/*    
-}
-function limpiar(){
-    resultado.textContent = "";
-
-
-function resolver(){
-    var res = 0;
-    switch (operacion) {
+function resolver(a){
+    console.log("entre a la funcion resolver");
+    switch (a) {
         case "+":
-            res = parseFloat(operando1) + parseFloat(operando2);
+            operacion = parseFloat(acumulador) + parseFloat(operando1);
+            console.log("entre en la opcion sumar");
             break;
         case "-":
-            res = parseFloat(operando1) - parseFloat(operando2);
+            operacion = parseFloat(acumulador) - parseFloat(operando1);
+            console.log("entre en la opcion resta");
             break;
         case "*":
-            res = parseFloat(operando1) * parseFloat(operando2);
+            operacion = parseFloat(acumulador) * parseFloat(operando1);
+            console.log("entre en la opcion multiplicacion");
             break;
         case "/":
-            res = parseFloat(operando1) / parseFloat(operando2);
+            if(acumulador != 0)
+            {
+                operacion = parseFloat(acumulador) / parseFloat(operando1); //acumulador vale 3 y operando 1 vale 2
+                console.log("entre en la opcion division");
+            }
+            else{
+                alert("No se puede dividir un número entre 0");
+            }
             break;        
     }
-    resetear();
-    resultado.textContent = parseFloat(res);
+    resultado.textContent = operacion;
+    
+    //resetear();
 }
-*/
+
