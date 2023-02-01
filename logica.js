@@ -1,5 +1,5 @@
 var operando1 = "" ;
-var operando2 = "";
+var operando2 = "" ;
 var operacion ;
 var cadena = "";
 var cont = 0;
@@ -92,7 +92,7 @@ function init(){
             if((cadena[i] >= 0)&&(cadena[i]<=9))
             {
                 operando2 += cadena[i];
-                console.log("Este es el operando 2: "+operando2);
+                console.log("Este es el operando 2: " + operando2);
             }
             else{
                 if(cadena[i]== "+")
@@ -104,7 +104,12 @@ function init(){
                         operando1 += cadena[j];
                         console.log("este es el operando 1: " + operando1)
                         i++;
+                        if(cadena[j] == null)
+                        {
+                            
+                        }
                     }
+                    
                     console.log(operando2)
                 }
             }
