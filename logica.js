@@ -1,8 +1,10 @@
 var operando1 = "" ;
 var operando2 = "" ;
-var operacion ;
+var operando3 = "" ;
+var operando4 = "" ;
+var operacion = 0;
 var cadena = "";
-var cont = 0;
+var acumulador = 0;
 
 
 
@@ -87,36 +89,72 @@ function init(){
 
         //cadena ejemplo 12+12 un arrglo de 5 posiciones contanto el 0
         console.log(cadena.length)
+        //22+2+2
         for(var i=0; i<cadena.length; i++)
         {
-            if((cadena[i] >= 0)&&(cadena[i]<=9))
+            if(cadena[i]!= null)
             {
-                operando2 += cadena[i];
-                console.log("Este es el operando 2: " + operando2);
-            }
-            else{
-                if(cadena[i]== "+")
+                if(cadena[i]!='+')
                 {
-                    
-                    for(var j=i+1; j < i; j++)
-                    {
-                        console.log("ejecucion " + j + "del for j")
-                        operando1 += cadena[j];
-                        console.log("este es el operando 1: " + operando1)
-                        i++;
-                        if(cadena[j] == null)
-                        {
-                            
-                        }
-                    }
-                    
-                    console.log(operando2)
+                    console.log("operando1: " + operando1);
+                    operando1 += cadena[i];
+                    console.log(operando1);
                 }
+                else{
+                    operando2 = operando1;
+                    console.log("operando 2:" + operando2);
+                    acumulador += parseFloat(operando2);
+                    console.log(acumulador);
+                    operando2 = "";
+                    operando1 = "";
+                }
+                // // // if(cadena[i]=='-')
+                // // // {
+                // // //     operando2 += cadena[i];
+                // // // }
+                // // // if(cadena[i]=='*')
+                // // // {
+                // // //     operando3 += cadena[i];
+                // // // }
+                // // // if(cadena[i]=='/')
+                // // // {
+                // // //     operando4 += cadena[i];
+                // // // }
             }
+            else
+            {
+                break;
+            }
+            // if((cadena[i] >= 0)&&(cadena[i]<=9))
+            // {
+            //     operando2 += cadena[i];
+            //     console.log("Este es el operando 2: " + operando2);
+            // }
+            // else{
+            //     if(cadena[i]== "+")
+            //     {
+                    
+            //         for(var j=i+1; j < i; j++)
+            //         {
+            //             console.log("ejecucion " + j + "del for j")
+            //             operando1 += cadena[j];
+            //             console.log("este es el operando 1: " + operando1)
+            //             i++;
+            //             if(cadena[j] == null)
+            //             {
+                            
+            //             }
+            //         }
+                    
+            //         console.log(operando2)
+            //     }
+            // }
         }
 
-        operacion = parseFloat(operando2) + parseFloat(operando1);
+        operacion = parseFloat(acumulador) + parseFloat(operando1);
         console.log(operacion);
+        resultado.textContent = operacion;
+        
         
     }
     borrar.onclick = function(){
@@ -130,6 +168,7 @@ function resetear(){
     operando1 = "";
     operando2 = "";
     operacion = "";
+    acumulador = 0;
 }
     
 
