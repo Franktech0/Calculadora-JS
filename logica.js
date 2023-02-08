@@ -7,6 +7,9 @@ var cadena = "";
 var acumulador = 0;
 var opcion = "";
 var aux = 0;
+var Arreglo1 = [];
+var PilaOperadores = [];
+var NotPosfijo = [];
 
 
 function init(){
@@ -87,8 +90,93 @@ function init(){
     igual.onclick = function(a)
     {
         cadena = resultado.textContent;
-        console.log(cadena);
+        
+        //4+2-3
 
+        
+        
+        //funciones de los arreglos
+        //shift -elimina primer elemento del arreglo
+        //unshift - agerga un eleemento al principio del arreglo
+        //pop - eleminiar el ultimo elemento del arreglo
+        //push - agrega un elemento al final del arreglo
+        
+        /*
+        reglas simples de las operaciones posfijas
+
+        operador = precedencia -> se cambia
+        operador > precedencia -> se agrega a la pila
+        operador < precedencia -> saca operadores
+        parentesis derecho -> vacia pila
+
+        (), [], {} = 1
+        ^ = 2
+        *, / = 3 -> solo ocupamos de aqui hacia abajo
+        +, - = 4
+
+        */
+        
+        //creamos nuestra pila
+        //2+2/4  *2-1 = 1
+        console.log(cadena.length);
+        for(let i =0; i<cadena.length; i++){
+            
+            if((cadena[i]!='+')&&(cadena[i]!='-')&&(cadena[i]!='/')&&(cadena[i]!='*'))
+            {
+                Arreglo1.push(cadena[i]); //['2',
+                NotPosfijo.push(Arreglo1.pop()); // -> salvamos los datos //[2, 2]
+                console.log(NotPosfijo);
+                if(cadena.length-1 == i)
+                {
+                    while(PilaOperadores.length != 0){
+                        NotPosfijo.push(PilaOperadores.pop())//siempre se temrina con un numero
+                    }
+                }
+            }
+            else if(cadena[i]=='+' || cadena[i] =='-'|| cadena[i] =='*'|| cadena[i] =='/')
+            {
+                if(PilaOperadores != (PilaOperadores.length===0)) //Pila de operadores lleva un [+]
+                {
+                    //misma precendecia
+                    if(((PilaOperadores[PilaOperadores.length - 1]== '*' || PilaOperadores[PilaOperadores.length - 1]== '/') && (cadena[i] == '*' || cadena[i] == '/')) || ((PilaOperadores[PilaOperadores.length - 1]== '+' || PilaOperadores[PilaOperadores.length - 1]== '-') && (cadena[i] == '+' || cadena[i] == '-')))
+                    {
+                        NotPosfijo.push(PilaOperadores.pop()); 
+                        PilaOperadores.push(cadena[i]);//['+', '/']
+                    }//el operador que viene en la cadena es de mayor precedencia 
+                    else if((PilaOperadores[PilaOperadores.length - 1]== '-' || PilaOperadores[PilaOperadores.length - 1]== '+') && (cadena[i] =='*' || cadena[i] =='/'))
+                    {
+                        console.log(PilaOperadores);
+                        PilaOperadores.push(cadena[i]);//['+', '/']
+                    }//ultima condicion por defecto, saca todo y mete el utlimo
+                    else{
+                        console.log("esta es la longitud de la pila de operadores: "+PilaOperadores.length);
+                        while(PilaOperadores.length != 0)
+                        {
+                                console.log(NotPosfijo);
+                                NotPosfijo.push(PilaOperadores.pop());
+                            
+                        }
+                        PilaOperadores.push(cadena[i]);
+                    }
+                }
+                else{
+                    PilaOperadores.push(cadena[i]);//[+]
+                }
+            }
+        }
+        
+
+        
+        
+        console.log(NotPosfijo);
+        console.log(PilaOperadores);
+        console.log(Arreglo1);
+        PilaOperadores.forEach(element => {console.log(element)});
+        Arreglo1.forEach(element => {console.log(element)});
+
+
+
+        /*
         //cadena ejemplo 12+12 un arrglo de 5 posiciones contanto el 0
         console.log(cadena.length)
         if(cadena.length < 30)
@@ -212,6 +300,7 @@ function init(){
     
 
     }
+    */
     borrar.onclick = function(){
         resultado.textContent = "";
         console.clear();
@@ -226,8 +315,10 @@ function resetear(){
     operacion = "";
     acumulador = 0;
     opcion = "";
+    Arreglo1 = [];
+    PilaOperadores = [];
+    NotPosfijo = [];
 }
-    
 
 function resolver(a){
     console.log("entre a la funcion resolver");
@@ -258,5 +349,4 @@ function resolver(a){
     resultado.textContent = operacion;
     
     //resetear();
-}
-
+}}
