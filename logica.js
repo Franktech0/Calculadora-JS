@@ -1,19 +1,9 @@
-var operando1 = "" ;
-var operando2 = "" ;
-var operando3 = "" ;
-var operando4 = "" ;
-var operacion = 0;
-var cadena = "";
-var acumulador = 0;
-var opcion = "";
-var aux = 0;
 var Arreglo1 = [];
 var PilaOperadores = [];
 var NotPosfijo = [];
-var ArregloReverso = [];
 var SalvarDatos = [];
-var SalvarNumeros = "";
 var AuxDatos = [];
+
 
 
 function init(){
@@ -180,19 +170,6 @@ function init(){
         Arreglo1.forEach(element => {console.log(element)});
 
 
-        //ahora solo falta sacar el resultado
-        
-        //ArregloReverso = NotPosfijo.reverse();
-        
-
-        //2+2/4 == 224/+
-        //+/422
-        // for(let i = 0; i<NotPosfijo.length; i++)
-        // {
-        //     SalvarNumeros += String(NotPosfijo[i]);
-        // } 
-
-        console.log(SalvarNumeros);
 
         for(let i = 0; i<NotPosfijo.length; i++)
         {
@@ -269,13 +246,9 @@ function init(){
 }
 function resetear(){
     resultado.textContent ="";
-    operando1 = "";
-    operando2 = "";
-    operacion = "";
-    acumulador = 0;
-    opcion = "";
     Arreglo1 = [];
     PilaOperadores = [];
     NotPosfijo = [];
     SalvarDatos = [];
+    AuxDatos = [];
 }
