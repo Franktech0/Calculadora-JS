@@ -44,4 +44,5 @@ body{
     line-height: 100px;
     background-color: #e2e2e2;
     border-radius: 10px;
+    overflow: auto;
 }
