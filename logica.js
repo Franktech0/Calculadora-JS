@@ -114,6 +114,8 @@ function init(){
         //2+2/4  *2-1 = 1
         console.log(cadena.length);
         console.log(cadena);
+        if(cadena.length <= 30)
+        {
         for(let i =0; i<cadena.length; i++){
             
             if((cadena[i]!='+')&&(cadena[i]!='-')&&(cadena[i]!='/')&&(cadena[i]!='*'))
@@ -233,7 +235,10 @@ function init(){
         console.log(SalvarDatos);
 
         resultado.textContent = String(SalvarDatos);
-
+        }
+        else{
+            alert ("La longitud maxima de numeros y operadores es 30, porfavor ingrese menos numeros");
+        }
 
     }
     
