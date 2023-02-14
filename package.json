@@ -1,0 +1,24 @@
+{
+  "name": "calculadora-en-js",
+  "version": "1.0.0",
+  "description": "Calculadora desarrollada en JS vanilla, HTML y CSS que dada una cadena de números y operadores, imprime el resultado",
+  "main": "logica.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc -c jsdoc.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Franktech0/Calculadora-JS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Franktech0/Calculadora-JS/issues"
+  },
+  "homepage": "https://github.com/Franktech0/Calculadora-JS#readme",
+  "devDependencies": {
+    "jsdoc": "^4.0.0"
+  }
+}
