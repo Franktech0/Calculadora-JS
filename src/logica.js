@@ -1,20 +1,43 @@
+/**
+ * Es una varibale que va almacenar la cadena recuperada de la pantalla de la calculadora 
+ * en HTML
+ */
+var cadena;
 /** 
- * Sitio donde se definen las variables globales del codigo:
- * Arreglo1, PilaOperadores, NotPosfijo, SalvarDatos y AuxDatos son variables de tipo arreglo que nos permitiran
- * salvar los datos a traves de la ejecucion del codigo
+ * Es una variable de tipo arreglo que sirve como pila para salvar los números de la cadena introducida
  * @type {Array}
  */
 var Arreglo1 = [];
+/**
+ * Es un arreglo que sirve como pila para los operadores (+, -, *, /) de la calculadora
+ * @type {Array}
+ */
 var PilaOperadores = [];
+/**
+ * Esta variable es un arreglo donde se guardara la cadena introducida por el usuario en 
+ * notacion posfija.
+ * @type {Array}
+ */
 var NotPosfijo = [];
+/**
+ * Es un arreglo que permite acomodar los datos para resolver la cadena creada en notacion posfija
+ * @type {Array}
+ */
 var SalvarDatos = [];
+/**
+ * Es un arreglo que sirve como pila para invertir el orden de los datos en SalvarDatos[] y 
+ * realizar la operación correctamente
+ * @type {Array}
+ */
 var AuxDatos = [];
+
 
 
 /**
  * function init() Es la funcion principal que se ejecutara tan pronto se cargue la pagina web 
  */
-function init(){
+function init()
+{
     /**
      * En esta parte se definen las variables que traeran los valores de los números
      * desde la vista en html (a través de su ID) 
@@ -94,7 +117,10 @@ function init(){
     cinco.onclick = function(a){
         resultado.textContent = resultado.textContent + "5";
     }
-    
+    /**
+     * Esta y las funciones posteiorres hacen los mismo que las anteriores
+     * @param {number} a 
+     */
     seis.onclick = function(a){
         resultado.textContent = resultado.textContent + "6";
     }
@@ -155,86 +181,144 @@ function init(){
         resultado.textContent = resultado.textContent + "/";
     }
 
-    //eventos click de los botones especiales
+    
     /**
-     * Esta es una función ani
-     * @param {*} a 
+     * Al ser presionado el boton igual ejecuta la función => esta recupera lo que esta en la 
+     * pantalla de la calculadora y lo guarda en un variable en forma de string, se manda a llamar
+     * a la función operacion() y se le manda como paramétro la var cadena.
+     * @param {caracter} a 
      */
     igual.onclick = function(a)
     {
+
         cadena = resultado.textContent;
-        
-        //4+2-3
+        operacion(cadena);
+    }
+    /**
+     * esta es una función que permite limpiar todas las variables del programa, asi como tambien 
+     * la pantalla de la calculadora en HTML
+     */
+    borrar.onclick = function(){
+            resultado.textContent = "";
+            console.clear();
+            resetear()
+    }
+}
+/**
+ * Esta es una funcion que se encargada de hacer todas las operaciones, recibe como parametro
+ * una cadena de texto para despues analizarla y cambiarla a notación posfija
+ * @param {String} cadena Es la cadena de texto recuperada de la pantalla
+ */
+function operacion(cadena){
+    
+    //funciones de los arreglos
+    //shift -elimina primer elemento del arreglo
+    //unshift - agerga un eleemento al principio del arreglo
+    //pop - eleminiar el ultimo elemento del arreglo
+    //push - agrega un elemento al final del arreglo
+    
+    /*
+    reglas simples de las operaciones posfijas
 
-        
-        
-        //funciones de los arreglos
-        //shift -elimina primer elemento del arreglo
-        //unshift - agerga un eleemento al principio del arreglo
-        //pop - eleminiar el ultimo elemento del arreglo
-        //push - agrega un elemento al final del arreglo
-        
-        /*
-        reglas simples de las operaciones posfijas
+    operador = precedencia -> se cambia
+    operador > precedencia -> se agrega a la pila
+    operador < precedencia -> saca operadores
+    parentesis derecho -> vacia pila
 
-        operador = precedencia -> se cambia
-        operador > precedencia -> se agrega a la pila
-        operador < precedencia -> saca operadores
-        parentesis derecho -> vacia pila
+    (), [], {} = 1
+    ^ = 2
+    *, / = 3 -> solo ocupamos de aqui hacia abajo
+    +, - = 4
 
-        (), [], {} = 1
-        ^ = 2
-        *, / = 3 -> solo ocupamos de aqui hacia abajo
-        +, - = 4
-
-        */
+    */
         
-        //creamos nuestra pila
-        //2+2/4  *2-1 = 1
         console.log(cadena.length);
         console.log(cadena);
+        /**Se valida que la cadena introducida desde la calculadora no sea mayor a una longitud de 30 caracteres 
+         * de lo contrario mostrara un mensaje de error.
+        */
         if(cadena.length <= 30)
         {
+        /**Se crea un ciclo donde se iterara la cadena */
         for(let i =0; i<cadena.length; i++){
-            
+            /**Si encontramos un número lo va a guardar en en el Arreglo1[] y posterior mente lo va a salvar
+             * en NotPosfijo[]
+            */
             if((cadena[i]!='+')&&(cadena[i]!='-')&&(cadena[i]!='/')&&(cadena[i]!='*'))
             {
-                Arreglo1.push(cadena[i]); //['2',
-                NotPosfijo.push(Arreglo1.pop()); // -> salvamos los datos //[2, 2]
+                Arreglo1.push(cadena[i]);
+                NotPosfijo.push(Arreglo1.pop()); 
                 console.log(NotPosfijo);
+                /**Si estamos en la ultima posición de la cadena entonces vacea la pila de operadores 
+                 * y los inserta en el arreglo NotPosfijo
+                 */
                 if(cadena.length-1 == i)
                 {
                     while(PilaOperadores.length != 0){
-                        NotPosfijo.push(PilaOperadores.pop())//siempre se temrina con un numero
+                        NotPosfijo.push(PilaOperadores.pop())
                     }
                 }
             }
+            /**Si encuentra un operador entonces pasa a revisar que operarador es (+, -, /, *) */
             else if(cadena[i]=='+' || cadena[i] =='-'|| cadena[i] =='*'|| cadena[i] =='/')
             {
-                if(PilaOperadores != (PilaOperadores.length===0)) //Pila de operadores lleva un [+]
+                /** Aqui vamos a comenzar a contruir la operación en notación
+                 * posfija.
+                 * 
+                 * primero debemos revisar las reglas simples de las operaciones posfijas
+
+                 *  operador = precedencia -> se cambia
+                 *  operador > precedencia -> se agrega a la pila
+                 *  operador < precedencia -> saca operadores
+                 *  parentesis derecho -> vacia pila
+                */
+                if(PilaOperadores.length != 0)/** si la longitud de PilaOperadores es diferete de 0 
+                entonces entra y ejecuta el codigo */
                 {
-                    //misma precendecia
+                    /**
+                     * En este primer caso revisamos si la precedencia del operador es igual (+ y -)
+                     */
                     if(((PilaOperadores[PilaOperadores.length - 1]== '*' || PilaOperadores[PilaOperadores.length - 1]== '/') && (cadena[i] == '*' || cadena[i] == '/')) || ((PilaOperadores[PilaOperadores.length - 1]== '+' || PilaOperadores[PilaOperadores.length - 1]== '-') && (cadena[i] == '+' || cadena[i] == '-')))
                     {
+                        /**si es de igual precedencia sacamos el ultimo operador guardado en PilaOperadores
+                         * y lo guardamos en NotPosfijo.
+                         * Posteriormente guardamos el operador que se estaba revisando en la pila de operadores
+                         */
                         NotPosfijo.push(PilaOperadores.pop()); 
                         PilaOperadores.push(cadena[i]);//['+', '/']
-                    }//el operador que viene en la cadena es de mayor precedencia 
+                    }
+                    /** Si el operador que viene es de mayor precedencia, se procede a guardar el operador dentro de
+                     * la pila de operadores
+                      */
                     else if((PilaOperadores[PilaOperadores.length - 1]== '-' || PilaOperadores[PilaOperadores.length - 1]== '+') && (cadena[i] =='*' || cadena[i] =='/'))
                     {
                         console.log(PilaOperadores);
                         PilaOperadores.push(cadena[i]);//['+', '/']
-                    }//ultima condicion por defecto, saca todo y mete el utlimo
+                    }
+                    /** Si el operador que viene en la cadena en la posicion i es de menor precedencia
+                     * se sacan todos lo operadores de la pila de operadores y se agregan a el arreglo
+                     * NotPosfijo.
+                     * 
+                     * Una vez hecho lo anterior y estando la pila de operadores vacia, se procede a guardar
+                     * el operador que viene en la cadena a la PilaOperadores
+                     */
                     else{
                         console.log("esta es la longitud de la pila de operadores: "+PilaOperadores.length);
+                        /**Mientras la PilaOperadores sea diferente de 0 seguira sacando valores y 
+                         * metiendolos en NotPosfijo
+                         */
                         while(PilaOperadores.length != 0)
                         {
-                                console.log(NotPosfijo);
-                                NotPosfijo.push(PilaOperadores.pop());
+                            console.log(NotPosfijo);
+                            NotPosfijo.push(PilaOperadores.pop());
                             
                         }
                         PilaOperadores.push(cadena[i]);
                     }
                 }
+                /**Si la longitud de PilaOperadores es igaul a cero entonces mete directamente 
+                 * el operador que viene en cadena en la posición i en PilaOperadores
+                 */
                 else{
                     PilaOperadores.push(cadena[i]);//[+]
                 }
@@ -243,18 +327,24 @@ function init(){
         
 
         
-        
-        console.log(NotPosfijo); //al final nuestro resultado ya esta en notposfijo
+        /** Mandamos a imprimir los arreglos en consola para verificar que todos estan vacios,
+         * excepto NotPosfijo, que ya tiene la operacion en notacion posfija
+         */
+        console.log(NotPosfijo); 
         console.log(PilaOperadores);
         console.log(Arreglo1);
-        PilaOperadores.forEach(element => {console.log(element)});
-        Arreglo1.forEach(element => {console.log(element)});
 
-
-
+        /**Ahora vamos a resolver nuestra operación posfija:
+         * 
+         * Primero debemos crear un bucle que itere el arreglo NotPosfijo
+        */
         for(let i = 0; i<NotPosfijo.length; i++)
         {
-            //console.log(NotPosfijo);
+            /**
+             * Verificamos si lo que esta en la posición i de NotPosfijo es un número:
+             * si lo es, convertimos ese número que esta en String a un Flotante y lo
+             * metemos al arreglo SalvarDatos
+             */
             if((NotPosfijo[i]!='+')&&(NotPosfijo[i]!='-')&&(NotPosfijo[i]!='/')&&(NotPosfijo[i]!='*'))
             {
                 SalvarDatos.push(parseFloat(NotPosfijo[i]));//elimina el primer elemento del arreglo
@@ -315,19 +405,13 @@ function init(){
 
         resultado.textContent = String(SalvarDatos);
         }
+        /**De los contrario mostrara un mensaje de error, pidiendo una cadena menor a 30 caracteres*/
         else{
             alert ("La longitud maxima de numeros y operadores es 30, porfavor ingrese menos numeros");
         }
 
-    }
-    
-    borrar.onclick = function(){
-        resultado.textContent = "";
-        console.clear();
-        resetear()
-    }
-
-}
+    }    
+/** Esta función limpia todas las variables que se ocupan en el programa */
 function resetear(){
     resultado.textContent ="";
     Arreglo1 = [];
