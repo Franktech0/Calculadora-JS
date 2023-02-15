@@ -347,62 +347,99 @@ function operacion(cadena){
              */
             if((NotPosfijo[i]!='+')&&(NotPosfijo[i]!='-')&&(NotPosfijo[i]!='/')&&(NotPosfijo[i]!='*'))
             {
-                SalvarDatos.push(parseFloat(NotPosfijo[i]));//elimina el primer elemento del arreglo
-                //salvar datos [2, 2, 4 ]
+                SalvarDatos.push(parseFloat(NotPosfijo[i]));
             }
+            /**Si lo que viene en la posicion i de NotPosfijo es un signo (+), entonces 
+             * invertimos el orden en el que vienen los 2 dos ultimos 2 números y los metemos en
+             * el arreglo  AuxDatos.
+             */
             else if(NotPosfijo[i]=='+')
             {
                 for(let i = 0; i<2; i++)
                 {
-                    //salvar datos llega con: [2, .5]
-                    AuxDatos[i] = SalvarDatos.pop()//invertimos el orden de los ultimos leementos del arreglo
+                    AuxDatos[i] = SalvarDatos.pop()
                 }
-                //auxdatos = [.5, 2]
-
+                /**
+                 * Ahora sumamos el primer elemento y el ultimo del arreglo AuxDatos y 
+                 * la suma de estos valores los metemos al final del arreglo SalvarDatos 
+                 */
                 SalvarDatos.push(AuxDatos.pop()+AuxDatos.shift()); 
-                //2+.5 = 2.5
             }
+            /**Si lo que viene en la posicion i de NotPosfijo es un signo (-), entonces 
+             * invertimos el orden en el que vienen los 2 dos ultimos 2 números y los metemos en
+             * el arreglo  AuxDatos.
+             */
             else if(NotPosfijo[i]=='-')
             {
                 
                 for(let i = 0; i<2; i++)
                 {
-                    AuxDatos[i] = SalvarDatos.pop()//invertimos el orden de los ultimos leementos del arreglo
+                    AuxDatos[i] = SalvarDatos.pop()//invertimos el orden de los ultimos elementos del arreglo
                 }
-
+                /**
+                 * Ahora restamos el primer elemento y el ultimo del arreglo AuxDatos y 
+                 * la resta de estos valores los metemos al final del arreglo SalvarDatos 
+                 */
                 SalvarDatos.push(AuxDatos.pop()-AuxDatos.shift()); 
             }
+            /**Si lo que viene en la posicion i de NotPosfijo es un signo (*), entonces 
+             * invertimos el orden en el que vienen los 2 dos ultimos 2 números y los metemos en
+             * el arreglo  AuxDatos.
+             */
             else if(NotPosfijo[i]=='*')
             {
                 
                 for(let i = 0; i<2; i++)
                 {
-                    AuxDatos[i] = SalvarDatos.pop()//invertimos el orden de los ultimos leementos del arreglo
+                    AuxDatos[i] = SalvarDatos.pop()//invertimos el orden de los ultimos elementos del arreglo
                 }
-
+                /**
+                 * Ahora multiplicamos el primer elemento y el ultimo del arreglo AuxDatos y 
+                 * el resultad de la multiplicación de estos valores los metemos al final del arreglo SalvarDatos 
+                 */
                 SalvarDatos.push(AuxDatos.pop()*AuxDatos.shift()); 
             }
+            /**Si lo que viene en la posicion i de NotPosfijo es un signo (/), entonces 
+             * invertimos el orden en el que vienen los 2 dos ultimos 2 números y los metemos en
+             * el arreglo  AuxDatos.
+             */
             else if(NotPosfijo[i]=='/')
             {
                 
                 for(let i = 0; i<2; i++)
                 {   
-                    AuxDatos[i] = SalvarDatos.pop()//invertimos el orden de los ultimos leementos del arreglo
-                    //auxdatos = [4, 2]
+                    AuxDatos[i] = SalvarDatos.pop()//invertimos el orden de los ultimos elementos del arreglo
+                    
                 }
-                console.log("este es auxiliar datos en la division: " + AuxDatos);
-
-                SalvarDatos.push(AuxDatos.pop()/AuxDatos.shift());
-                //2/4 = .5
-                //salvardatos[2, .5]
+                if(AuxDatos[0]==0)
+                {
+                    alert("¡Error!, no se puede dividir entre cero")
+                    resetear();
+                    break;
+                }
+                /**
+                 * Ahora dividimos el primer elemento y el ultimo del arreglo AuxDatos y 
+                 * el resultado de la división de estos valores los metemos al final del arreglo SalvarDatos 
+                 */
+                else{
+                    SalvarDatos.push(AuxDatos.pop()/AuxDatos.shift());
+                }
             }
+            /**
+             * Si por alguna circuntacia el valor que viene en la posición i de NotPsfijo es diferente
+             * a alguno de estos caracteres, se nos mostrara un mensaje de error.
+             */
             else{
                 alert("¡Hubo un error inesperado!")
             }
         }
+
         console.log(AuxDatos);
         console.log(SalvarDatos);
 
+        /**
+         * Mandamos como cadena de texto el arreglo SalvarDatos a la pantalla de la calculadora
+         */
         resultado.textContent = String(SalvarDatos);
         }
         /**De los contrario mostrara un mensaje de error, pidiendo una cadena menor a 30 caracteres*/
