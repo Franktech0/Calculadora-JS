@@ -330,7 +330,7 @@ function operacion(cadena){
         /** Mandamos a imprimir los arreglos en consola para verificar que todos estan vacios,
          * excepto NotPosfijo, que ya tiene la operacion en notacion posfija
          */
-        console.log(NotPosfijo); 
+        console.log("Esta es la notación posfija: "+ NotPosfijo); 
         console.log(PilaOperadores);
         console.log(Arreglo1);
 
